@@ -14,7 +14,8 @@ exports.userSignUp = async (req, res) => {
         });
         res.status(201).json(new ApiResponse(201, "User created successfully", user));
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        // res.status(400).json({ message: err.message });
+        next(err);
     }
 }
 
@@ -33,6 +34,7 @@ exports.userLogin = async (req, res) => {
         return res.json(new ApiResponse(200, "user logged in succesfully", token));
 
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        // res.status(400).json({ message: error.message });
+        next(error);
     }
 }

@@ -7,6 +7,7 @@ exports.createAdmin = async (req, res) => {
     await user.save();
     res.status(201).json(new ApiResponse(200, "Admin created successfully.", user));
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    next(error);
   }
 };

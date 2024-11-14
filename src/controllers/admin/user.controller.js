@@ -6,7 +6,8 @@ exports.getAllUsers = async (req, res)=>{
         const  users = await User.find({});
         res.status(200).json(new ApiResponse(200, "Users retrieved successfully", users));
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+        next(error);
     }
 }
 
@@ -18,7 +19,8 @@ exports.getUser = async (req, res)=>{
         if(!user) return res.status(404).json(new ApiResponse(404, "User not found"));
         res.status(200).json(new ApiResponse(200, "User retrieved successfully", user));
     } catch (error) {
-        res.status(500).json(new ApiResponse(500, "Some error occurred", error));
+        // res.status(500).json(new ApiResponse(500, "Some error occurred", error));
+        next(error);
     }
 }
 
@@ -29,7 +31,8 @@ exports.updateUser = async (req, res)=>{
         if(!updatedUser) return res.status(404).json(new ApiResponse(404, "User not found"));
         res.status(200).json(new ApiResponse(200, "User updated successfully", updatedUser));
     } catch (error) {
-        res.status(500).json(new ApiResponse(500, "Some error occurred", error));
+        // res.status(500).json(new ApiResponse(500, "Some error occurred", error));
+        next(error);
     }
 }
 
@@ -40,6 +43,7 @@ exports.deleteUser = async (req, res)=> {
         if(!user) return res.status(404).json(new ApiResponse(404, "User not found"));
         res.status(200).json(new ApiResponse(200, "User deleted successfully", user));
     } catch (error) {
-        res.status(500).json(new ApiResponse(500, "Some error occurred", error));
+        // res.status(500).json(new ApiResponse(500, "Some error occurred", error));
+        next(error);
     }
 }
