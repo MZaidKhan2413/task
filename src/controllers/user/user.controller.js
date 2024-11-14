@@ -1,10 +1,17 @@
 const User = require('../../models/user.model');
 const jwt = require('jsonwebtoken');
 const ApiResponse = require('../../utils/apiResponse');
+const bcrypt = require('bcryptjs');
 
 exports.userSignUp = async (req, res) => {
     try {
-        const user = await User.create(req.body);
+        let {name, email, password} = req.body;
+        password = await bcrypt.hash(password, 8);
+        const user = await User.create({
+            name,
+            email,
+            password
+        });
         res.status(201).json(new ApiResponse(201, "User created successfully", user));
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -18,7 +25,7 @@ exports.userLogin = async (req, res) => {
         if(!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        if(user.password !== password) {
+        if(!bcrypt.compare(password, user.password)) {
             return res.status(401).json({ message: 'Invalid password' });
         }
 
