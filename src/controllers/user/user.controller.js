@@ -1,10 +1,11 @@
 const User = require('../../models/user.model');
 const jwt = require('jsonwebtoken');
+const ApiResponse = require('../../utils/apiResponse');
 
 exports.userSignUp = async (req, res) => {
     try {
         const user = await User.create(req.body);
-        res.status(201).json(user);
+        res.status(201).json(new ApiResponse(201, "User created successfully", user));
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -22,7 +23,7 @@ exports.userLogin = async (req, res) => {
         }
 
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
-        return res.json({token});
+        return res.json(new ApiResponse(200, "user logged in succesfully", token));
 
     } catch (error) {
         res.status(400).json({ message: error.message });
