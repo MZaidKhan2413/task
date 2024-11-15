@@ -31,3 +31,8 @@ exports.userLogin = asyncHandler(async (req, res) => {
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
     return res.json(new ApiResponse(200, "user logged in succesfully", token));
 })
+
+exports.getProfile = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user);
+    return res.status(200).json(new ApiResponse(200, "Profile retrieved successfully", user));
+});
