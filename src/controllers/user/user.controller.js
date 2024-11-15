@@ -6,6 +6,10 @@ const asyncHandler = require("../../middlewares/asyncHandler");
 
 exports.userSignUp = asyncHandler(async (req, res) => {
     let {name, email, password} = req.body;
+    const checkUser = await User.findOne({email});
+    if(checkUser) {
+        return res.status(409).json(new ApiResponse(409, "User already exists!",));
+    }
     password = await bcrypt.hash(password, 8);
     const user = await User.create({
         name,
