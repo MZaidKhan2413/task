@@ -3,7 +3,7 @@ const ApiError = require('../../utils/ApiError');
 
 exports.loginValidator = [
     body('email').isEmail().withMessage('Invalid email'),
-    body('password').isEmpty().withMessage('Password is required!').isLength({min: 6}).withMessage('Password must be at least 6 characters long'),
+    body('password').isLength({min: 6}).withMessage('Password must be at least 6 characters long'),
 
     (req, res, next) => {
         const errors = validationResult(req);
